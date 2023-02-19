@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Posts extends Model
+class Messages extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'post_table';
+    protected $table = 'message_table';
 
     protected $primary_key = 'id';
     public $timestamps = false;
@@ -23,15 +23,14 @@ class Posts extends Model
     }
 
     protected $fillable = [
-        'title',
-        'img',
-        'body',
-        'comment_id',
+        'user_sender_id',
+        'user_reciever_id',
+        'message',
         'created_at',
+        'updated_at',
     ];
 
     protected $hidden = [
-        'id',
     ];
 
 

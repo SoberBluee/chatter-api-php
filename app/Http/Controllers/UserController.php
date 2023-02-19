@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\UserDTO;
 use \Exception;
+use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,14 +12,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends BaseController
 {
 
     public function checkOldPassword(Request $request){
         try{
-            dd(User::query()->where('id', $request->input('user_id')) ===
-            Hash::make($request->input('oldPassword')));
+            // dd(User::query()->where('id', $request->input('user_id')) ===
+            // Hash::make($request->input('oldPassword')));
             return([
                 'data' => User::query()->where('id', $request->input('user_id')) ===
                 Hash::make($request->input('oldPassword')),
@@ -49,7 +52,7 @@ class UserController extends BaseController
         }
     }
     /**
-     * Will get a user given a user_id
+     * Will get a user given a email
      *
      */
     public function getUser($email){
@@ -78,28 +81,34 @@ class UserController extends BaseController
             assert($user->password != null, 'Please enter a valid password');
 
             //get user from entered email
-            $table_user = $this->getUserByEmail($user->email);
-
-            if(!$table_user->email){
+            $user = $this->getUserByEmail($user->email);
+            if(!$user->email){
                 return ([
                     'data' => '',
                     'message' => 'Invalid credentials',
                     'status' => 400,
                 ]);
             }
+
             //Get friends list and store in user
-            $user_friends = User::find(explode(",", $table_user->friend_list));
-            $table_user->friend_list = $user_friends;
+            $user->friend_list = User::find(explode(",", $user->friend_list));
 
             // validate user password
-            if(strcmp($table_user->password, $user->email)){
-                Auth::login($table_user);
+            if(strcmp($user->password, $user->email)){
+                session(['session_chatter' => Hash::make(env('JWT_SECRET'))]);
+                $result = UserDTO::fromModel($user)->serialize();
+                // $result =    UserDTO::fromModel($user)->serialize();
+                dd($result);
 
-                $user_sender_messages = DB::table('message_table')->where('user_sender_id', $table_user->message_id)->get();
-                $user_reciever_messages = DB::table('message_table')->where('user_reciever_id', $table_user->message_id)->get();
-                $table_user->messages = array_merge($user_sender_messages->toArray(), $user_reciever_messages->toArray());
+                $user->remember_token = Session::get('session_chatter');
+                Cache::put('user_session', $user->remember_token);
+                $user_sender_messages = DB::table('message_table')->where('user_sender_id', $user->message_id)->get();
+                $user_reciever_messages = DB::table('message_table')->where('user_reciever_id', $user->message_id)->get();
+                $user->messages = array_merge($user_sender_messages->toArray(), $user_reciever_messages->toArray());
+                Auth::login($user);
+
                 return([
-                    'data'=> $table_user,
+                    'data'=> $user,
                     'message'=>'Login successful',
                     'status'=>200,
                 ]);
@@ -149,6 +158,10 @@ class UserController extends BaseController
             assert($user->email != null, 'Please enter a valid email');
             assert($user->password != null, 'Please enter a valid password');
 
+            session(['session_chatter' => Hash::make(env('JWT_SECRET'))]);
+
+            $user->remember_token = Session::get('session_chatter');
+
             // saves user to table
             $user->save();
             // Log user in
@@ -172,6 +185,27 @@ class UserController extends BaseController
             ]);
         }
     }
+
+    // public function autoLogin(Request $request){
+    //     $token = $request->input('remember_token');
+    //     $stored_token = Cache::get('user_session');
+
+    //     if($token === $stored_token){
+
+    //         // Auth::login();
+
+    //         return([
+    //             'data'=>true,
+    //             'message' => 'Successfull',
+    //             'status'=> 200,
+    //         ]);
+    //     }
+    //     return([
+    //         'data'=>false,
+    //         'message' => 'Unsuccessfull',
+    //         'status'=> 200,
+    //     ]);
+    // }
 
     public function getUserByEmail(string $email){
         return User::where('email', $email)->get()->first();

@@ -33,18 +33,7 @@ Route::prefix('/v1')->group(function(){
         Route::post('/create-user', [UserController::class, 'registerUser']);
         Route::post('/login', [UserController::class, 'login']);
         Route::post('/check-old-password', [UserController::class, 'checkOldPassword']);
+        Route::post('/auto-login', [UserController::class, 'autoLogin']);
     });
-
-    // Route::prefix('posts')->group(function(){
-    //     Route::get('get-all-posts', [PostsController::class,'getAllPosts']);
-    //     Route::post('create-post', [PostsController::class, 'setPost']);
-    //     Route::get('{post_id}', [PostsController::class, 'getPost']);
-    //     Route::delete('{post_id}', [PostsController::class, 'deletePost']);
-    //     Route::post('/edit', [PostsController::class, 'editPost']);
-    // });
-
-    // Route::prefix('messages')
-
-
 });
 

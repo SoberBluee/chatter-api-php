@@ -11,9 +11,11 @@ class Posts extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'posts';
+    protected $table = 'post_table';
 
     protected $primary_key = 'id';
+    public $timestamps = false;
+
 
     public function __construct(array $attributes = [])
     {
@@ -25,7 +27,7 @@ class Posts extends Model
         'img',
         'body',
         'comment_id',
-        'uploaded_at',
+        'created_at',
     ];
 
     protected $hidden = [

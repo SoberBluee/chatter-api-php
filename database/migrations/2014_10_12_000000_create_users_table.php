@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id()->uniqid();
+            $table->id("id")->uniqid();
             $table->string('user_name')->unique();
             $table->string('first_name');
             $table->string('sur_name');
@@ -25,7 +25,6 @@ return new class extends Migration
             $table->integer('post_id');
             $table->integer('message_id');
             $table->string('friend_list');
-            $table->tinyInteger('status');
             $table->rememberToken();
             $table->timestamps();
         });

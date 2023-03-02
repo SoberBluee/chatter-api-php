@@ -24,15 +24,12 @@ Route::prefix('/v1')->group(function(){
     });
 
     Route::prefix('user')->group(function(){
-        Route::get('{email}', [UserController::class, 'getUser']);
+        Route::get('{id}', [UserController::class, 'getUser']);
         Route::post('/create-user', [UserController::class, 'registerUser']);
         Route::post('/login', [UserController::class, 'login']);
-    });
-
-    Route::prefix('posts')->group(function(){
-        Route::post('create-post', [PostsController::class, 'setPost']);
-        Route::get('{post_id}', [PostsController::class, 'getPost']);
-        Route::delete('{post_id}', [PostsController::class, 'deletePost']);
+        Route::post('/check-old-password', [UserController::class, 'checkOldPassword']);
+        Route::post('/auto-login', [UserController::class, 'autoLogin']);
+        Route::post('/update-password', [UserController::class, 'updatePassword']);
     });
 });
 

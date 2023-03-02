@@ -23,6 +23,9 @@ return new class extends Migration
             $table->integer('phonenumber');
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('post_id');
+            $table->integer('message_id');
+            $table->string('friend_list');
+            $table->tinyInteger('status');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\PostsController;
@@ -32,8 +33,12 @@ Route::prefix('/v1')->group(function(){
         Route::get('{id}', [UserController::class, 'getUser']);
         Route::post('/create-user', [UserController::class, 'registerUser']);
         Route::post('/login', [UserController::class, 'login']);
-        Route::post('/check-old-password', [UserController::class, 'checkOldPassword']);
-        Route::post('/auto-login', [UserController::class, 'autoLogin']);
+    });
+
+    Route::prefix('account')->group(function(){
+        Route::post('/check-old-password', [AccountController::class, 'checkOldPassword']);
+        Route::post('/update-password', [AccountController::class, 'updatePassword']);
+        Route::post('/update-account-details', [AccountController::class, 'updateAccountDetails']);
     });
 });
 

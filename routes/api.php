@@ -39,6 +39,11 @@ Route::prefix('/v1')->group(function(){
         Route::post('/check-old-password', [AccountController::class, 'checkOldPassword']);
         Route::post('/update-password', [AccountController::class, 'updatePassword']);
         Route::post('/update-account-details', [AccountController::class, 'updateAccountDetails']);
+        Route::post('/update-email', [AccountController::class, 'updateEmail']);
+    });
+
+    Route::prefix('mail')->group(function(){
+        Route::post("email-change-email", [EmailController::class, 'emailChangeEmail']);
     });
 });
 

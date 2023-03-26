@@ -13,6 +13,8 @@ class ResetPasswordEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public string $url;
+
     /**
      * Create a new message instance.
      *
@@ -20,6 +22,8 @@ class ResetPasswordEmail extends Mailable
      */
     public function __construct(public string $token)
     {
+        $this->url = "localhost:8000/api/v1/email/reset-password/" . $token;
+        // dd($this->url);
     }
 
     /**

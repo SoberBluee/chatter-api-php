@@ -12,6 +12,7 @@ class PasswordReset extends Model
     protected $table = 'password_resets';
 
     protected $primary_key = 'email';
+
     public $timestamps = false;
 
     public function __construct(array $attributes = [])
@@ -23,10 +24,6 @@ class PasswordReset extends Model
         'email',
         'token',
         'created_at',
-    ];
-
-    protected $hidden = [
-        'id',
     ];
 
 }

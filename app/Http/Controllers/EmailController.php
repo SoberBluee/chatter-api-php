@@ -16,10 +16,11 @@ class EmailController extends Controller
 
     public function emailChangePassword(Request $request){
         $email = $request->input('email');
-
         $token = $this->emailService->generatePasswordResetToken($email);
-
-        Mail::to($email)->cc("someone@mail.com")->bcc("someoneelse@mail.com")->queue(new ResetPasswordEmail($token));
+        Mail::to($email)
+            ->cc("someone@mail.com")
+            ->bcc("someoneelse@mail.com")
+            ->queue(new ResetPasswordEmail($token));
 
         return([
             'data' => '',
@@ -28,7 +29,11 @@ class EmailController extends Controller
         ]);
     }
 
-    public function confirmChangePassword(string $resetToken){
+    public function confirmChangePassword(Request $request){
+        $email = $request->input('email');
+        $token = $request->input('token');
+
+
 
     }
 }

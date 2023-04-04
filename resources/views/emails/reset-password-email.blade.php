@@ -11,7 +11,7 @@
         <title>{{ config('app.name') }}</title>
 
         <!-- Scripts -->
-        @vite(['resources/sass/reset-password.scss', 'resources/js/app.js'])
+        <link rel="stylesheet" href="../emails/reset-password-email.blade.php">
     </head>
     <!-- body -->
     <body>
@@ -19,6 +19,7 @@
         <div class="text-body">
             <p>This is a password reset email</p>
             <p>Please follow this email to reset your password</p>
+            <p>{{ $url }}</p>
         </div>
     </body>
 </html>

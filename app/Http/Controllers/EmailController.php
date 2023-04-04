@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Services\EmailService;
+use App\Models\PasswordReset;
+use Carbon\Carbon;
 
 class EmailController extends Controller
 {
@@ -15,12 +17,19 @@ class EmailController extends Controller
     }
 
     public function emailChangePassword(Request $request){
+        $passwordReset = new PasswordReset();
         $email = $request->input('email');
         $token = $this->emailService->generatePasswordResetToken($email);
+
+        $passwordReset->email = $email;
+        $passwordReset->token = $token;
+        $passwordReset->created_at = Carbon::now();
+        $passwordReset->save();
+
         Mail::to($email)
             ->cc("someone@mail.com")
             ->bcc("someoneelse@mail.com")
-            ->queue(new ResetPasswordEmail($token));
+            ->queue(new ResetPasswordEmail($token, $email));
 
         return([
             'data' => '',

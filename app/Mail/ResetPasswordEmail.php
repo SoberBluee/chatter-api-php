@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -20,10 +19,13 @@ class ResetPasswordEmail extends Mailable
      *
      * @return void
      */
-    public function __construct(public string $token)
+    public function __construct(public string $token, public string $email)
     {
-        $this->url = "localhost:8000/api/v1/email/reset-password/" . $token;
-        // dd($this->url);
+        /**
+         * need to create a page in angular frontend that this url will go to with the token in the page
+         */
+        $this->url = "localhost:4200/reset-password/" . $token . "?email=" . $email;
+
     }
 
     /**

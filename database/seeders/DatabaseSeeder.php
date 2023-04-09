@@ -27,9 +27,10 @@ class DatabaseSeeder extends Seeder
             "phonenumber" => "08888888",
             "email" => "ethan@mail.com",
             "password" => Hash::make("admin"),
-            "post_id"=> 1,
+            "post_id" => 1,
             "message_id" => 1,
             "friend_list" => '2, 3',
+            "api_token" => Str::random(60),
             "remember_token" => Hash::make("admin"),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -42,9 +43,10 @@ class DatabaseSeeder extends Seeder
             "phonenumber" => rand(00000000, 999999999),
             "email" => Str::random(5) . "@gmail.com",
             "password" => Hash::make(Str::random(10)),
-            "post_id"=> 2,
+            "post_id" => 2,
             "message_id" => 2,
             "friend_list" => '1',
+            "api_token" => Str::random(60),
             "remember_token" => Hash::make(Str::random(10)),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -57,9 +59,10 @@ class DatabaseSeeder extends Seeder
             "phonenumber" => rand(00000000, 999999999),
             "email" => Str::random(5) . "@gmail.com",
             "password" => Hash::make(Str::random(10)),
-            "post_id"=> 3,
+            "post_id" => 3,
             "message_id" => 3,
             "friend_list" => "1",
+            "api_token" => Str::random(60),
             "remember_token" => Hash::make(Str::random(10)),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -67,7 +70,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('message_table')->insert([
             "user_sender_id" => 1,
-            "user_reciever_id"=>2,
+            "user_reciever_id" => 2,
             "message" => Str::random(10),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -75,7 +78,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('message_table')->insert([
             "user_sender_id" => 1,
-            "user_reciever_id"=>2,
+            "user_reciever_id" => 2,
             "message" => Str::random(10),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -83,7 +86,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('message_table')->insert([
             "user_sender_id" => 2,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => Str::random(10),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -91,7 +94,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('message_table')->insert([
             "user_sender_id" => 2,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => "test message",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -99,7 +102,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('message_table')->insert([
             "user_sender_id" => 2,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => "test message",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -107,42 +110,42 @@ class DatabaseSeeder extends Seeder
 
         DB::table('message_table')->insert([
             "user_sender_id" => 2,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => "test message",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
         DB::table('message_table')->insert([
             "user_sender_id" => 2,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => "test message",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
         DB::table('message_table')->insert([
             "user_sender_id" => 2,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => "test message",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
         DB::table('message_table')->insert([
             "user_sender_id" => 2,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => "test message",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
         DB::table('message_table')->insert([
             "user_sender_id" => 2,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => "test message",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
         DB::table('message_table')->insert([
             "user_sender_id" => 2,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => "test message",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -177,7 +180,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('message_table')->insert([
             "user_sender_id" => 1,
-            "user_reciever_id"=>3,
+            "user_reciever_id" => 3,
             "message" => "User id 1",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
@@ -185,7 +188,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('message_table')->insert([
             "user_sender_id" => 3,
-            "user_reciever_id"=>1,
+            "user_reciever_id" => 1,
             "message" => "User id 2 ",
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),

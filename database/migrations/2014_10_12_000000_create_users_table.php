@@ -25,6 +25,10 @@ return new class extends Migration
             $table->integer('post_id');
             $table->integer('message_id');
             $table->string('friend_list');
+            $table->string('api_token', 80)->after('password')
+                ->unique()
+                ->nullable()
+                ->default(null);
             $table->rememberToken();
             $table->timestamps();
         });

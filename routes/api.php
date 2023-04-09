@@ -6,6 +6,8 @@ use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\Authentication;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -21,35 +23,34 @@ use Illuminate\Support\Facades\Session;
 |
 */
 
-Route::prefix('v1')->group(function(){
-
+Route::prefix('v1')->group(function () {
     // Route::prefix('email')->groupo(function(){
     //     Route::get('reset-password', [EmailController::class, 'confirmChangePassword']);
     // });
 
-    Route::get('csrf', function() {
-      return Session::token();
-    });
-
-    Route::prefix('friend')->group(function(){
-        Route::post('get-friends', [FriendsController::class, 'getFriends']);
-    });
-
-    Route::prefix('user')->group(function(){
-        Route::get('{id}', [UserController::class, 'getUser']);
-        Route::post('create-user', [UserController::class, 'registerUser']);
+    Route::prefix('user')->group(function () {
         Route::post('login', [UserController::class, 'login']);
     });
 
-    Route::prefix('account')->group(function(){
-        Route::post('check-old-password', [AccountController::class, 'checkOldPassword']);
-        Route::post('update-password', [AccountController::class, 'updatePassword']);
-        Route::post('update-account-details', [AccountController::class, 'updateAccountDetails']);
-        Route::post('update-email', [AccountController::class, 'updateEmail']);
-    });
+    Route::middleware('auth:api')->group(function () {
+        Route::prefix('friend')->group(function () {
+            Route::post('get-friends', [FriendsController::class, 'getFriends']);
+        });
 
-    Route::prefix('mail')->group(function(){
-        Route::get("email-change-email", [EmailController::class, 'emailChangePassword']);
+        Route::prefix('user')->group(function () {
+            Route::get('{id}', [UserController::class, 'getUser']);
+            Route::post('create-user', [UserController::class, 'registerUser']);
+        });
+
+        Route::prefix('account')->group(function () {
+            Route::post('check-old-password', [AccountController::class, 'checkOldPassword']);
+            Route::post('update-password', [AccountController::class, 'updatePassword']);
+            Route::post('update-account-details', [AccountController::class, 'updateAccountDetails']);
+            Route::post('update-email', [AccountController::class, 'updateEmail']);
+        });
+
+        Route::prefix('mail')->group(function () {
+            Route::get("email-change-email", [EmailController::class, 'emailChangePassword']);
+        });
     });
 });
-

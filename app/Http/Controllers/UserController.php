@@ -13,44 +13,54 @@ use Illuminate\Routing\Controller as BaseController;
 class UserController extends BaseController
 {
 
-    public function checkUser(Request $request){
+    public function checkUser(Request $request)
+    {
         if ($request->user('sanctum')) {
-            return([
-                'data' =>'auth',
-                'message'=>'authenticated',
+            return ([
+                'data' => 'auth',
+                'message' => 'authenticated',
                 'status' => 200,
             ]);
         } else {
-            return([
-                'data' =>'unauth',
-                'message'=>'unauthenticated',
+            return ([
+                'data' => 'unauth',
+                'message' => 'unauthenticated',
                 'status' => 400,
             ]);
         }
+    }
+
+    public function logoutFunc(Request $reuqest)
+    {
+        Auth::logout();
+        $user = $reuqest->user;
+        dd($user);
     }
 
     /**
      * Will get a user given a email
      * @params string $email
      */
-    public function getUser($id){
-        try{
-            return([
+    public function getUser($id)
+    {
+        try {
+            return ([
                 'data' => User::find($id),
-                'message'=> 'success',
+                'message' => 'success',
                 'status' => 200,
             ]);
-        }catch(Exception $e){
-            return([
-                'data'=>'',
-                'message'=>'Could not find your user',
-                'status'=>'400',
+        } catch (Exception $e) {
+            return ([
+                'data' => '',
+                'message' => 'Could not find your user',
+                'status' => '400',
             ]);
         }
     }
 
-    public function login(Request $request){
-        try{
+    public function login(Request $request)
+    {
+        try {
             $user = new User();
             $user->email = $request->input('email');
             $user->password = $request->input('password');
@@ -58,7 +68,7 @@ class UserController extends BaseController
             $fetched_user = $this->getUserByEmail($user->email);
 
             // validate user exitst
-            if(!Hash::check($user->password, $fetched_user->password)){
+            if (!Hash::check($user->password, $fetched_user->password)) {
                 return ([
                     'data' => '',
                     'message' => 'Invalid credentials',
@@ -68,7 +78,7 @@ class UserController extends BaseController
             $user = $fetched_user;
 
             //Get friends list and store in user
-            try{
+            try {
                 $user->friend_list = $this->getUserFriends($fetched_user->friend_list);
                 //=================== UserDTO attempt ================
                 // session(['session_chatter' => Hash::make(env('JWT_SECRET'))]); //trying set jwt session token
@@ -78,32 +88,31 @@ class UserController extends BaseController
                 //=================== UserDTO attempt ================
 
                 Auth::login($user);
-                return([
-                    'data'=> $user,
-                    'message'=>'Login successful',
-                    'status'=>200,
+                return ([
+                    'data' => $user,
+                    'message' => 'Login successful',
+                    'status' => 200,
                 ]);
-
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 // dd($e);
-                return([
-                    'data'=>'',
-                    'message'=>'Something went wrong setting up your account',
-                    'status'=>400
+                return ([
+                    'data' => '',
+                    'message' => 'Something went wrong setting up your account',
+                    'status' => 400
                 ]);
             }
             //if password incorrect
-            return([
-                'data'=>'',
-                'message'=>'Invalid credentials',
-                'status'=>400
+            return ([
+                'data' => '',
+                'message' => 'Invalid credentials',
+                'status' => 400
             ]);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             // something else failed
-            return([
-                'data'=>'',
-                'message'=>'Login Failed',
-                'status'=> 400,
+            return ([
+                'data' => '',
+                'message' => 'Login Failed',
+                'status' => 400,
             ]);
         }
     }
@@ -113,9 +122,10 @@ class UserController extends BaseController
      *
      *
      */
-    public function registerUser(Request $request){
+    public function registerUser(Request $request)
+    {
         //get user from request and set in database
-        try{
+        try {
             $user = new User();
             /**
              * Create UserDTO to set request inputs
@@ -143,27 +153,29 @@ class UserController extends BaseController
             $user_id = $this->getUserByEmail($user->email);
             $user->user_id = $user_id->id;
             //  return user_id and token
-            return([
-                'data'=>[
+            return ([
+                'data' => [
                     'user' => $user,
                 ],
-                'message'=>'Registration Successfull ',
-                'status'=>200,
+                'message' => 'Registration Successfull ',
+                'status' => 200,
             ]);
-        }catch(Exception $e){
-            return([
-                'error'=>$e->getMessage(),
-                'message'=>'Something went wrong when creating your account',
-                'status'=>500
+        } catch (Exception $e) {
+            return ([
+                'error' => $e->getMessage(),
+                'message' => 'Something went wrong when creating your account',
+                'status' => 500
             ]);
         }
     }
 
-    public function getUserByEmail(string $email){
+    public function getUserByEmail(string $email)
+    {
         return User::where('email', $email)->get()->first();
     }
 
-    public function getUserFriends($friend_list){
+    public function getUserFriends($friend_list)
+    {
         return User::find(explode(",", $friend_list));
     }
 
@@ -172,11 +184,15 @@ class UserController extends BaseController
      *
      */
 
-    public function deleteUser($user_id){}
+    public function deleteUser($user_id)
+    {
+    }
 
     /**
      * Will edit a user when given data
      *
      */
-    public function editUser(Request $request){}
+    public function editUser(Request $request)
+    {
+    }
 }

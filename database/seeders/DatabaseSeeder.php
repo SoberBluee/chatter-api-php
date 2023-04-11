@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
             "message_id" => 1,
             "friend_list" => '2, 3',
             "api_token" => Str::random(60),
-            "remember_token" => Hash::make("admin"),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
@@ -47,7 +46,6 @@ class DatabaseSeeder extends Seeder
             "message_id" => 2,
             "friend_list" => '1',
             "api_token" => Str::random(60),
-            "remember_token" => Hash::make(Str::random(10)),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
@@ -63,7 +61,6 @@ class DatabaseSeeder extends Seeder
             "message_id" => 3,
             "friend_list" => "1",
             "api_token" => Str::random(60),
-            "remember_token" => Hash::make(Str::random(10)),
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);

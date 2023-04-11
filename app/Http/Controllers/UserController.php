@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Routing\Controller as BaseController;
 
 class UserController extends BaseController
@@ -80,14 +81,11 @@ class UserController extends BaseController
             //Get friends list and store in user
             try {
                 $user->friend_list = $this->getUserFriends($fetched_user->friend_list);
-                //=================== UserDTO attempt ================
-                // session(['session_chatter' => Hash::make(env('JWT_SECRET'))]); //trying set jwt session token
-                // $result = UserDTO::fromModel($user)->serialize(); //
-                // $user->remember_token = Session::get('session_chatter'); // set the user token
-                // Cache::put('user_session', $user->remember_token); // cache user session token in laravel cache
-                //=================== UserDTO attempt ================
-
+                $user->api_token = Str::random(60);
+                $user->api_token_expiry = Carbon::now()->addMinutes(env('TOKEN_EXPIRY'))->timezone('Europe/London');
                 Auth::login($user);
+                $user->save();
+
                 return ([
                     'data' => $user,
                     'message' => 'Login successful',

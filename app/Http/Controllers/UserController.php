@@ -62,32 +62,34 @@ class UserController extends BaseController
     public function login(Request $request)
     {
         try {
-            $user = new User();
-            $user->email = $request->input('email');
-            $user->password = $request->input('password');
             //get user from entered email
-            $fetched_user = $this->getUserByEmail($user->email);
+            $fetched_user = $this->getUserByEmail($request->input('email'));
+
 
             // validate user exitst
-            if (!Hash::check($user->password, $fetched_user->password)) {
+            if (!Hash::check($request->input('password'), $fetched_user->password)) {
                 return ([
                     'data' => '',
                     'message' => 'Invalid credentials',
                     'status' => 400,
                 ]);
             }
-            $user = $fetched_user;
 
             //Get friends list and store in user
             try {
-                $user->friend_list = $this->getUserFriends($fetched_user->friend_list);
-                $user->api_token = Str::random(60);
-                $user->api_token_expiry = Carbon::now()->addMinutes(env('TOKEN_EXPIRY'))->timezone('Europe/London');
-                Auth::login($user);
-                $user->save();
+                $token = Str::random(60);
+                $token_expiry = Carbon::now()->addMinutes(env('TOKEN_EXPIRY'))->timezone('Europe/London');
+                $fetched_user->api_token = $token;
+                $fetched_user->api_token_expiry = $token_expiry;
+                $fetched_user->save();
+
+                Auth::login($fetched_user);
+
+                $new_user = $this->getUserByEmail($request->input('email'));
+                $new_user->friend_list = $this->getUserFriends($fetched_user->friend_list);
 
                 return ([
-                    'data' => $user,
+                    'data' => $new_user,
                     'message' => 'Login successful',
                     'status' => 200,
                 ]);
@@ -169,7 +171,7 @@ class UserController extends BaseController
 
     public function getUserByEmail(string $email)
     {
-        return User::where('email', $email)->get()->first();
+        return User::where('email', $email)->get()->firstOrFail();
     }
 
     public function getUserFriends($friend_list)

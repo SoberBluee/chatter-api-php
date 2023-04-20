@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             "password" => Hash::make("admin"),
             "post_id" => 1,
             "message_id" => 1,
-            "friend_list" => '2, 3',
+            "friend_list" => '2, 3, 4, 5',
             "api_token" => Str::random(60),
             "api_token_expiry" => Carbon::now()->addMinute(30),
             "created_at" => Carbon::now(),
@@ -61,6 +61,38 @@ class DatabaseSeeder extends Seeder
             "password" => Hash::make(Str::random(10)),
             "post_id" => 3,
             "message_id" => 3,
+            "friend_list" => "1",
+            "api_token" => Str::random(60),
+            "api_token_expiry" => Carbon::now()->addMinute(30),
+            "created_at" => Carbon::now(),
+            "updated_at" => Carbon::now(),
+        ]);
+
+        DB::table('users')->insert([
+            "user_name" => Str::random(5),
+            "first_name" => Str::random(5),
+            "sur_name" => Str::random(5),
+            "phonenumber" => rand(00000000, 999999999),
+            "email" => Str::random(5) . "@gmail.com",
+            "password" => Hash::make(Str::random(10)),
+            "post_id" => 4,
+            "message_id" => 4,
+            "friend_list" => "1,2",
+            "api_token" => Str::random(60),
+            "api_token_expiry" => Carbon::now()->addMinute(30),
+            "created_at" => Carbon::now(),
+            "updated_at" => Carbon::now(),
+        ]);
+
+        DB::table('users')->insert([
+            "user_name" => Str::random(5),
+            "first_name" => Str::random(5),
+            "sur_name" => Str::random(5),
+            "phonenumber" => rand(00000000, 999999999),
+            "email" => Str::random(5) . "@gmail.com",
+            "password" => Hash::make(Str::random(10)),
+            "post_id" => 5,
+            "message_id" => 5,
             "friend_list" => "1",
             "api_token" => Str::random(60),
             "api_token_expiry" => Carbon::now()->addMinute(30),
@@ -152,6 +184,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('post_table')->insert([
+            'userId' => 1,
             "title" => Str::random(10),
             "img" => '',
             "body" => Str::random(50),
@@ -161,6 +194,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('post_table')->insert([
+            'userId' => 1,
             "title" => Str::random(10),
             "img" => '',
             "body" => Str::random(50),
@@ -170,6 +204,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('post_table')->insert([
+            'userId' => 2,
             "title" => Str::random(10),
             "img" => '',
             "body" => Str::random(50),

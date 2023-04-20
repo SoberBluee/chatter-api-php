@@ -18,6 +18,7 @@ return new class extends Migration
         Schema::create('post_table', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->integer('userId');
             $table->string('img');
             $table->string('body');
             $table->integer('comment_id');

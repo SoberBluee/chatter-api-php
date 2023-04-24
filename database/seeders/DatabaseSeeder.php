@@ -228,5 +228,33 @@ class DatabaseSeeder extends Seeder
             "created_at" => Carbon::now(),
             "updated_at" => Carbon::now(),
         ]);
+
+        DB::table('comment_table')->insert([
+            "parentCommentId" => null,
+            "postId" => 1,
+            "userId" => 1,
+
+            "comment" => "First comment on a post",
+            "created_at" => Carbon::now(),
+            "modified_at" => Carbon::now()
+        ]);
+
+        DB::table('comment_table')->insert([
+            "parentCommentId" => null,
+            "postId" => 1,
+            "userId" => 2,
+            "comment" => "THis comment was made by the user with an id of 2",
+            "created_at" => Carbon::now(),
+            "modified_at" => Carbon::now()
+        ]);
+
+        DB::table('comment_table')->insert([
+            "parentCommentId" => 1,
+            "postId" => 1,
+            "userId" => 2,
+            "comment" => "Second comment on a post",
+            "created_at" => Carbon::now(),
+            "modified_at" => Carbon::now()
+        ]);
     }
 }

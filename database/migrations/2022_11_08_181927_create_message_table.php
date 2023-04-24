@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_sender_id');
             $table->integer('user_reciever_id');
-            $table->string('message');
+            $table->string('message')->default('');
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
         });

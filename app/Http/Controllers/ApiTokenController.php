@@ -6,6 +6,7 @@ use \Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use \Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class ApiTokenController extends Controller
 {

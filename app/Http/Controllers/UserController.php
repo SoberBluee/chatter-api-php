@@ -64,8 +64,6 @@ class UserController extends BaseController
         try {
             //get user from entered email
             $fetched_user = $this->getUserByEmail($request->input('email'));
-
-
             // validate user exitst
             if (!Hash::check($request->input('password'), $fetched_user->password)) {
                 return ([

@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('comment_table', function (Blueprint $table) {
+            $table->id();
+            $table->integer('parentCommentId')->nullable()->default(null);
+            $table->integer('postId');
+            $table->integer('userId');
+            $table->string('comment')->default("");
+            $table->timestamp('created_at');
+            $table->timestamp('modified_at');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        //
+    }
+};
